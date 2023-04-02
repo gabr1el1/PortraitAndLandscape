@@ -37,29 +37,42 @@ implementation
 
 {$R *.fmx}
 
+//Si hubo un cambio de orientacion
 procedure TfrmMain.DoOrientationChanged(const Sender: TObject; const M: TMessage);
 var w,h: single;
 var s: IFMXScreenService;
 begin
   if TPlatformServices.Current.SupportsPlatformService(IFMXScreenService, s) then begin
+  //Calcular la altura o ancho para el panel 1 ya que
+  //el panel 2 tiene alineación Client, es decir toma el resto
     h:=pnlImages.Height / 2;
     w:=pnlImages.Width / 2;
 
     case s.GetScreenOrientation of
       TScreenOrientation.Portrait:
       begin
+      //Si la oritentacion es portrait poner panel 1 arriba
         Panel1.Height:=h;
         Panel1.Align:=TAlignLayout.Top;
       end;
       TScreenOrientation.Landscape:
+      //Si la orientacion es landscape(horizontal) poner panel 1 a la izquierda
       begin
         Panel1.Width:=w;
         Panel1.Align:=TAlignLayout.Left;
       end;
+      //Si la oritancion es inverted landscape poner panel 1
+      // a la derecha
       TScreenOrientation.InvertedLandscape:
       begin
         Panel1.Width:=w;
         Panel1.Align:=TAlignLayout.Right;
+      end;
+      //Orientacion no soportada
+      TScreenOrientation.InvertedPortrait:
+      begin
+        Panel1.Width:=w;
+        Panel1.Align:=TAlignLayout.Bottom;
       end;
     end;
   end;
