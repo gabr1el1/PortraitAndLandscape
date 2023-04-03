@@ -90,7 +90,7 @@ begin
   // Unsubscribe the TOrientationChangedMessage
 TMessageManager.DefaultManager.Unsubscribe(TOrientationChangedMessage, FId);
 end;
-{$IF DEFINED(MSWINDOWS)}
+{$IF DEFINED(MSWINDOWS) OR DEFINED(MACOS)}
 procedure TfrmMain.FormResize(Sender: TObject);
 var w, h : single;
 begin
