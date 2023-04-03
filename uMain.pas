@@ -90,9 +90,5 @@ begin
 TMessageManager.DefaultManager.Unsubscribe(TOrientationChangedMessage, FId);
 end;
 
-end.procedure TfrmMain.Image1Click(Sender: TObject);
-begin
-
-end;
-
+end
 
