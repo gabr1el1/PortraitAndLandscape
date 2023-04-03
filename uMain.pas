@@ -20,6 +20,7 @@ type
     procedure FormCreate(Sender: TObject);
     procedure DoOrientationChanged(const Sender: TObject; const M: TMessage);
     procedure FormDestroy(Sender: TObject);
+    procedure FormResize(Sender: TObject);
 
   private
     { Private declarations }
@@ -89,6 +90,32 @@ begin
   // Unsubscribe the TOrientationChangedMessage
 TMessageManager.DefaultManager.Unsubscribe(TOrientationChangedMessage, FId);
 end;
-
-end
+{$IF DEFINED(MSWINDOWS)}
+procedure TfrmMain.FormResize(Sender: TObject);
+var w, h : single;
+begin
+   // verificar si hubo un cambio de orientación
+   if self.Width > self.Height then
+   begin
+   // hubo un cambio de orientación a LandScape
+   // orientar el panel 1 a la izquierda
+   // el panel 2 se ajustará a lo que quede de espacio (Client)
+   // dividir el ancho del panel de imagenes en 2 para
+   // ajustar el tamaño de ambas imagenes a través de los paneles
+   w := pnlImages.Width / 2;
+   Panel1.Align := TAlignLayout.Left;
+   Panel1.Width := w;
+   end
+   else if self.Height > self.Width then
+   begin
+   // hubo un cambio de orientación a Portrait
+   // orientar el panel 1 al Tope
+   // el panel 2 se ajustará a lo que quede de espacio (Client)
+   h := pnlImages.Height / 2;
+   Panel1.Align := TAlignLayout.Top;
+   Panel1.Height := h;
+ end;
+end; // FormResize
+{$ENDIF}
+end.
 
